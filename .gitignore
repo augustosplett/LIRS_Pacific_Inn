@@ -1,0 +1,20 @@
+# Arquivos de bytecode Python (gerados pela execução do interpretador Python)
+__pycache__/
+*.pyc
+
+# Ambiente virtual (se estiver usando um)
+venv/
+env/
+*.env
+
+# Arquivos de logs
+*.log
+
+# Arquivos de build / distribuição
+build/
+dist/
+*.egg-info/
+
+# Arquivos de configuração pessoal que podem variar entre desenvolvedores
+*.config
+*.cfg
