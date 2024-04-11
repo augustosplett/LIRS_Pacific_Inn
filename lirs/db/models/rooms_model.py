@@ -1,12 +1,10 @@
 class Room:
 
-    def __init__(self, room_type, room_price, avaliability):
-        self.first_name = room_type
-        self.last_name = room_price
-        self.email = avaliability
-
-    def __init__(self, id: int, room_type, room_price, avaliability):
+    def __init__(self, room_type, room_price, avaliability, id: int = None):
         self.id = id
-        self.first_name = room_type
-        self.last_name = room_price
-        self.email = avaliability
+        self.room_type = room_type
+        self.room_price = room_price
+        self.avaliability = avaliability
+
+    def __str__(self) -> str:
+        return "ID: {}, Room Type: {}, Room Price: {}, Avaliability: {}".format(self.id, self.room_type, self.room_price, self.avaliability)

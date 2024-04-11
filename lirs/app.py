@@ -17,5 +17,7 @@ from db.repositories.customer_repository import CustomerRepository
 #menu()
 
 test = CustomerRepository()
-customer = Customer(123, "Augusto", "Splett", "augusto@gmail.com", 4381112222)
-test.create_customer(customer)
+customer = Customer( "Priscilla", "Luz", "augusto@gmail.com", 4381112222)
+print(customer)
+#test.update_customer(2, customer)
+#test.delete_customer(2)

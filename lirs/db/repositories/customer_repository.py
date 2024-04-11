@@ -24,16 +24,20 @@ class CustomerRepository:
             self.connection.commit()
             print("Customer successfully inserted")
         except mysql.connector.Error as e:
-            print(f"Erro to insert the customer: {e}")
+            print(f"Error to insert the customer: {e}")
 
     def get_customers(self) -> list[Customer]:
-        with self.connection.cursor() as cursor:
-            sql = "SELECT * FROM inn_customer"
-            cursor.execute(sql)
-            records = cursor.fetchall()
-            return records
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM inn_customer"
+                cursor.execute(sql)
+                records = cursor.fetchall()
+                return records
+        except mysql.connector.Error as e:
+            print(f"Error to get the customers: {e}")
 
     def get_customer_by_id(self, id:int)-> Customer:
+        try:
             sql = "SELECT * FROM inn_customer where id = %s"
             with self.connection.cursor() as cursor:
                 cursor.execute(sql, id)
@@ -42,27 +46,27 @@ class CustomerRepository:
                 return Customer(id=record[0], first_name=record[1], last_name=record[2], email=record[3], phone_number=record[4])
             else:
                 return None
+        except mysql.connector.Error as e:
+            print(f"Error to get the customer: {e}")
 
     def update_customer(self, id: int, customer: Customer):
-        cursor = connection.cursor()
-        sql = "UPDATE tabela_exemplo SET nome = %s, idade = %s WHERE id = %s"
-        values = (nome, idade, id)
-        cursor.execute(sql, values)
-        connection.commit()
-        print("Registro atualizado com sucesso!")
-
-    # Exemplo de uso:
-    # connection = mysql.connector.connect(...)  # Conectar ao banco de dados
-    # update_record(connection, 1, "Maria Silva", 35)
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "UPDATE inn_customer SET first_name = %s, last_name = %s, email = %s, phone_number = %s WHERE id = %s"
+                values = (customer.first_name, customer.last_name, 
+                        customer.email, customer.phone_number, id)
+                cursor.execute(sql, values)
+                self.connection.commit()
+            print("Customer successfully updated")
+        except mysql.connector.Error as e:
+            print(f"Error to update the customer: {e}")
 
     def delete_customer(self, id: int):
-        cursor = connection.cursor()
-        sql = "DELETE FROM tabela_exemplo WHERE id = %s"
-        values = (id,)
-        cursor.execute(sql, values)
-        connection.commit()
-        print("Registro excluído com sucesso!")
-
-    # Exemplo de uso:
-    # connection = mysql.connector.connect(...)  # Conectar ao banco de dados
-    # delete_record(connection, 1)
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "DELETE FROM inn_customer WHERE id = %s"
+                cursor.execute(sql, (id,))
+                self.connection.commit()
+            print("Customer successfully deleted!")
+        except mysql.connector.Error as e:
+            print(f"Error to delete the customer: {e}")
