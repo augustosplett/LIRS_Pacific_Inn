@@ -36,6 +36,19 @@ class CustomerRepository:
         except mysql.connector.Error as e:
             print(f"Error to get the customers: {e}")
 
+    def get_customer_by_email(self, email:str)-> Customer:
+        try:
+            sql = "SELECT * FROM inn_customer where email = %s"
+            with self.connection.cursor() as cursor:
+                cursor.execute(sql, email)
+            record = cursor.fetchone()
+            if record:
+                return Customer(id=record[0], first_name=record[1], last_name=record[2], email=record[3], phone_number=record[4])
+            else:
+                return None
+        except mysql.connector.Error as e:
+            print(f"Error to get the customer: {e}")
+
     def get_customer_by_id(self, id:int)-> Customer:
         try:
             sql = "SELECT * FROM inn_customer where id = %s"
