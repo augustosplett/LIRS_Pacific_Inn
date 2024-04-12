@@ -12,6 +12,23 @@ class RoomsRepository:
         full_configuration_path = path + '/lirs/config/database.ini'
 
         self.connection = connect_to_mysql(full_configuration_path)
+    
+    def insert_room(self, room:Room):
+        try:
+            with self.connection.cursor() as cursor:
+                insert_query = """
+                    INSERT INTO rooms (room_type, room_price, avaliability) 
+                    VALUES (%(room_type)s, %(room_price)s, %(avaliability)s)
+                """
+                room_data = {
+                    'room_type': room.room_type,
+                    'room_price': room.room_price,
+                    'avaliability': room.avaliability
+                }
+                cursor.execute(insert_query, room_data)
+            self.connection.commit()
+        except mysql.connector.Error as e:
+            print(f"Something went wrong to insert the Rooms: {e}")
 
     def get_rooms(self) -> list[Room]:
         try:

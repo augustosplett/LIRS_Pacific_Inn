@@ -101,6 +101,33 @@ def create_db(cursor, db_name):
     except mysql.connector.Error as e:
         print(f"Error to create tables: {e}")
 
+def insert_rooms(cursor, db_name):
+    ''' 
+    Insert the rooms
+    '''
+    try:
+        cursor.execute("USE {}".format(db_name))
+
+        inserts = [
+            '''
+            insert into inn_rooms(room_type, room_price, avaliability) values ('S', 100,1);
+            ''',
+                        '''
+            insert into inn_rooms(room_type, room_price, avaliability) values ('P', 150,5);
+            ''',
+                        '''
+            insert into inn_rooms(room_type, room_price, avaliability) values ('O', 200,5);
+            ''',
+                        '''
+            insert into inn_rooms(room_type, room_price, avaliability) values ('E', 80,9);
+            '''
+        ]
+
+        for insert in inserts:
+            cursor.execute(insert)
+    except mysql.connector.Error as e:
+        print(f"Error Inserting rooms: {e}")
+
 def check_db_exist(configuration_file):
     '''
     Function responsible for validate if the database exists
@@ -121,7 +148,9 @@ def check_db_exist(configuration_file):
 
             if not exist:
                 create_db(cursor,config['database'])
-            
+                insert_rooms(cursor,config['database'])
+
+        conn.commit()  
         conn.close()
     except mysql.connector.Error as e:
         print(f"Error to validade if the database exists: {e}")

@@ -1,6 +1,6 @@
 class Room:
 
-    def __init__(self, room_type, room_price, avaliability, id: int = None):
+    def __init__(self, room_type:str, room_price:float, avaliability:float, id: int = None):
         self.id = id
         self.room_type = room_type
         self.room_price = room_price
