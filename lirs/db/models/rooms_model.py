@@ -7,7 +7,7 @@ class Room:
         self.avaliability = avaliability
 
     def __str__(self) -> str:
-        return "ROOM --> ID: {}, Room Type: {}, Room Price: {}, Avaliability: {}".format(self.id, self.room_type, self.room_price, self.avaliability)
+        return f"ID: {self.id}\tType: {self.get_room_type()}\tPrice per night: {self.room_price} $\tAvaliability: {self.avaliability}"   
     
     def get_room_type(self)->str:
         type_code = self.room_type

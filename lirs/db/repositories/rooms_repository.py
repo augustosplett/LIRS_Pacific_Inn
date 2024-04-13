@@ -38,7 +38,11 @@ class RoomsRepository:
                 sql = "SELECT * FROM inn_rooms"
                 cursor.execute(sql)
                 records = cursor.fetchall()
-                return records
+                all_rooms = []
+                for record in records:
+                    room = Room(id=record[0], room_type=record[1], room_price=record[2], avaliability=record[3])
+                    all_rooms.append(room)
+                return all_rooms
         except mysql.connector.Error as e:
             print(f"Something went wrong to get the Rooms: {e}")
         finally:
