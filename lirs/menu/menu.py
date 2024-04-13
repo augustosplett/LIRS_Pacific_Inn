@@ -1,5 +1,3 @@
-from db.repositories.reservation_repository import ReservationRepository
-from db.models.reservation_model import Reservation
 from checkout.checkout import Checkout
 from checkin.checkin import Checkin
 class Menu:

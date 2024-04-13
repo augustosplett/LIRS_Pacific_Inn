@@ -1,9 +1,6 @@
 from db.repositories.reservation_repository import ReservationRepository
-from db.repositories.customer_repository import CustomerRepository
 from db.repositories.rooms_repository import RoomsRepository
 from db.models.reservation_model import Reservation
-from db.models.customer_model import Customer
-from db.models.rooms_model import Room
 
 class Checkout:
 
