@@ -1,7 +1,9 @@
 import re
 from db.repositories.rooms_repository import RoomsRepository
+from db.repositories.reservation_repository import ReservationRepository
 from db.repositories.customer_repository import CustomerRepository
 from db.models.rooms_model import Room
+from db.models.reservation_model import Reservation
 from db.models.customer_model import Customer
 
 class Checkin:
@@ -14,6 +16,29 @@ class Checkin:
         selected_room = self.handle_room_selection()
         if selected_room is not None:
             customer = self.handle_customer_information()
+        if customer is not None:
+            #handle the reservation
+            while True:
+                reservation_days = int(input("How many days will the customer stay? ").strip())
+                try:
+                    # Attempt to convert the input to an integer
+                    number_of_days = int(reservation_days)
+                    if number_of_days <= 0:
+                        print("Please enter a positive number of days.")
+                    else:
+                        break  # Break the loop if input is valid
+                except ValueError:
+                    print("Invalid input. Please enter a valid number of days.")
+            #create the reservation
+            cost = float(selected_room.room_price * reservation_days)
+            reserv = Reservation(room_id=selected_room.id,
+                                 customer_id=customer.id,
+                                 accommodation_days=reservation_days,
+                                 cost=cost,
+                                 checkout=0)
+            ReservationRepository().create_reservation(reservation=reserv)
+            print("Reservation finished!")
+        print("________________________________________________________________")
 
     def validate_email(self, email):
         '''

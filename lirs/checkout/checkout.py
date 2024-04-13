@@ -37,7 +37,7 @@ class Checkout:
         print("________________________________________________________________")
         for reserve in self.open_reservations:
             my_customer = reserve.get_reservation_properties()[1]
-            info_to_print = f"Reserve #: {reserve.id} - Customer: {my_customer.first_name} {my_customer.last_name}"
+            info_to_print = f"Reserve #: {reserve.id}\tCustomer: {my_customer.first_name} {my_customer.last_name}"
             print(info_to_print)
         print("________________________________________________________________")
 
