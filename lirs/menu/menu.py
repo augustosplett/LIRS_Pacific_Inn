@@ -30,7 +30,7 @@ class Menu:
     def checkin(self):
         print("checkin selected")
 
-    def handle_menu_option(option: int):
+    def handle_menu_option(self, option: int):
         if option == 1:
             Checkout().checkout()
         elif option == 2:

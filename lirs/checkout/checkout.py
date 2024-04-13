@@ -14,6 +14,25 @@ class Checkout:
         self.print_open_reserves()
         option = self.get_user_desired_reservation()
         self.print_checkout_details(option)
+        checkout = self.want_to_checkout()
+        if checkout == 'Y':
+            #change reservation status
+            ReservationRepository().update_reservation_status(option.id, 1)
+            #change the available number of rooms
+            rooms = RoomsRepository()
+            room = rooms.get_room_by_room_id(option.room_id)
+            room_available = room.avaliability + 1
+            rooms.update_room_availability(option.room_id, room_available)
+            #print Conformation Message
+            print("_______________Thank you and see you next time._________________")
+    
+    def want_to_checkout(self)-> str:
+        user_input = input("Do you want to checkout? (Y/N) :")
+        while user_input.strip().upper() not in ['Y', 'N']:
+            print("Please, enter Y or N")
+            user_input = input("Do you want to checkout? (Y/N) :")
+        return user_input.strip().upper()
+        
 
     def print_open_reserves(self):
         print("________________________________________________________________")
@@ -46,4 +65,3 @@ class Checkout:
         print(f"\tAccomodation: {reservation.accommodation_days} days")
         print(f"\tRoom Type: {reservation.get_reservation_properties()[0].get_room_type()}")
         print(f"\tTotal Cost: {reservation.cost} $")
-        print("_______________Thank you and see you next time._________________")

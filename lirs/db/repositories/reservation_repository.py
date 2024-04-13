@@ -57,7 +57,7 @@ class ReservationRepository:
                 values = (status, id)
                 cursor.execute(sql, values)
                 self.connection.commit()
-            print("Reservation Status successfully Updated")
+            print("Reservation Successfully Closed")
         except mysql.connector.Error as e:
             print(f"Something went wrong to update the reservation status: {e}")
         finally:
