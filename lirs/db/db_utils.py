@@ -67,8 +67,10 @@ def create_db(cursor, db_name):
                 `last_name` varchar(50) DEFAULT NULL,
                 `email` varchar(50) DEFAULT NULL,
                 `phone_number` bigint DEFAULT NULL,
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `unique_email` (`email`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
             """,
             """
             CREATE TABLE `inn_rooms` (
@@ -76,8 +78,9 @@ def create_db(cursor, db_name):
                 `room_type` varchar(1) DEFAULT NULL,
                 `room_price` decimal(5,2) DEFAULT NULL,
                 `avaliability` smallint DEFAULT NULL,
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `unique_room_type` (`room_type`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
             """,
             """
             CREATE TABLE `inn_reservation` (
@@ -92,7 +95,7 @@ def create_db(cursor, db_name):
                 KEY `customer_id` (`customer_id`),
                 CONSTRAINT `inn_reservation_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `inn_rooms` (`id`),
                 CONSTRAINT `inn_reservation_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `inn_customer` (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
             """ 
         ]
         # execute the scripts to create the tables

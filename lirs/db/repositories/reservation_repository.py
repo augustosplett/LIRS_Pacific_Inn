@@ -22,6 +22,8 @@ class ReservationRepository:
                 return records
         except mysql.connector.Error as e:
             print(f"Something went wrong to get the open Reservations: {e}")
+        finally:
+            cursor.close()
 
     def get_reservation_by_id(self, id:int)-> Reservation:
         try:
@@ -35,6 +37,8 @@ class ReservationRepository:
                 return None
         except mysql.connector.Error as e:
             print(f"Error to get the reservation: {e}")
+        finally:
+            cursor.close()
 
     def update_reservation_status(self, id: int, status: int):
         try:
@@ -46,3 +50,17 @@ class ReservationRepository:
             print("Reservation Status successfully Updated")
         except mysql.connector.Error as e:
             print(f"Something went wrong to update the reservation status: {e}")
+        finally:
+            cursor.close()
+
+    def create_reservation(self, reservation: Reservation):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "INSERT INTO inn_reservation (customer_id, room_id, accomodation_days, cost, checkout) VALUES (%s, %s, %s, %s, %s)"
+                values = (reservation.customer_id, reservation.room_id, reservation.accommodation_days, reservation.accommodation_days, reservation.checkout)
+                cursor.execute(sql, values)
+                self.connection.commit()
+        except mysql.connector.Error as e:
+            print(f"Something went wrong to Insert the reservation: {e}")
+        finally:
+            cursor.close()

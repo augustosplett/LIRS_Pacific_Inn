@@ -29,6 +29,8 @@ class RoomsRepository:
             self.connection.commit()
         except mysql.connector.Error as e:
             print(f"Something went wrong to insert the Rooms: {e}")
+        finally:
+            cursor.close()
 
     def get_rooms(self) -> list[Room]:
         try:
@@ -39,14 +41,30 @@ class RoomsRepository:
                 return records
         except mysql.connector.Error as e:
             print(f"Something went wrong to get the Rooms: {e}")
+        finally:
+            cursor.close()
+
+    def get_room_by_room_type(self, room_type: str) -> Room:
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM inn_rooms WHERE room_type = %s"
+                cursor.execute(sql, (room_type,))
+                record = cursor.fetchone()
+                return Room(id=record[0], room_type=record[1], room_price=record[2], avaliability=record[3])
+        except mysql.connector.Error as e:
+            print(f"Something went wrong to get the Rooms: {e}")
+        finally:
+            cursor.close()
 
     def update_room_availability(self, id: int, available_rooms: int):
         try:
             with self.connection.cursor() as cursor:
                 sql = "UPDATE inn_rooms SET avaliability = %s WHERE id = %s"
-                values = (id, available_rooms)
+                values = ( available_rooms, id)
                 cursor.execute(sql, values)
                 self.connection.commit()
-            print("Number of Available Rooms successfully Updated")
+            #print(f"Number of Available Rooms successfully Updated")
         except mysql.connector.Error as e:
             print(f"Something went wrong to update the room availability: {e}")
+        finally:
+            cursor.close()    

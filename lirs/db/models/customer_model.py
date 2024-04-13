@@ -8,4 +8,4 @@ class Customer:
         self.phone_number = phone_number
 
     def __str__(self) -> str:
-        return "ID: {}, First Name: {}, Last Name: {}, Email: {}, Phone Number: {}".format(self.id, self.first_name, self.last_name, self.email, self.phone_number)
+        return "CUSTOMER --> ID: {}, First Name: {}, Last Name: {}, Email: {}, Phone Number: {}".format(self.id, self.first_name, self.last_name, self.email, self.phone_number)

@@ -22,9 +22,11 @@ class CustomerRepository:
             with self.connection.cursor() as cursor:
                 cursor.execute(sql, values)
             self.connection.commit()
-            print("Customer successfully inserted")
+            print(f"New customer: {customer.first_name} {customer.last_name} successfully inserted")
         except mysql.connector.Error as e:
             print(f"Error to insert the customer: {e}")
+        finally:
+            cursor.close()
 
     def get_customers(self) -> list[Customer]:
         try:
@@ -35,19 +37,24 @@ class CustomerRepository:
                 return records
         except mysql.connector.Error as e:
             print(f"Error to get the customers: {e}")
+        finally:
+            cursor.close()
 
-    def get_customer_by_email(self, email:str)-> Customer:
+    def get_customer_by_email(self, email: str) -> Customer:
         try:
-            sql = "SELECT * FROM inn_customer where email = %s"
+            sql = "SELECT * FROM inn_customer WHERE email = %s"
+            
             with self.connection.cursor() as cursor:
-                cursor.execute(sql, email)
-            record = cursor.fetchone()
-            if record:
-                return Customer(id=record[0], first_name=record[1], last_name=record[2], email=record[3], phone_number=record[4])
-            else:
-                return None
+                cursor.execute(sql, (email,)) 
+                record = cursor.fetchone()
+                if record is not None:
+                    return Customer(id=record[0], first_name=record[1], last_name=record[2], email=record[3], phone_number=record[4])
+                else:
+                    return None
         except mysql.connector.Error as e:
             print(f"Error to get the customer: {e}")
+        finally:
+            cursor.close()
 
     def get_customer_by_id(self, id:int)-> Customer:
         try:
@@ -61,6 +68,8 @@ class CustomerRepository:
                 return None
         except mysql.connector.Error as e:
             print(f"Error to get the customer: {e}")
+        finally:
+            cursor.close()
 
     def update_customer(self, id: int, customer: Customer):
         try:
@@ -73,6 +82,8 @@ class CustomerRepository:
             print("Customer successfully updated")
         except mysql.connector.Error as e:
             print(f"Error to update the customer: {e}")
+        finally:
+            cursor.close()
 
     def delete_customer(self, id: int):
         try:
@@ -83,3 +94,5 @@ class CustomerRepository:
             print("Customer successfully deleted!")
         except mysql.connector.Error as e:
             print(f"Error to delete the customer: {e}")
+        finally:
+            cursor.close()
