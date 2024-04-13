@@ -19,7 +19,17 @@ class ReservationRepository:
                 sql = "SELECT * FROM inn_reservation where checkout = 0"
                 cursor.execute(sql)
                 records = cursor.fetchall()
-                return records
+                reservations = []
+                for record in records:
+                    reservation = Reservation( 
+                                            room_id=record[1], 
+                                            customer_id=record[2],
+                                            accommodation_days=record[3],
+                                            cost=record[4],
+                                            checkout=record[5],
+                                            id=record[0])
+                    reservations.append(reservation)
+                return reservations
         except mysql.connector.Error as e:
             print(f"Something went wrong to get the open Reservations: {e}")
         finally:
@@ -57,7 +67,7 @@ class ReservationRepository:
         try:
             with self.connection.cursor() as cursor:
                 sql = "INSERT INTO inn_reservation (customer_id, room_id, accomodation_days, cost, checkout) VALUES (%s, %s, %s, %s, %s)"
-                values = (reservation.customer_id, reservation.room_id, reservation.accommodation_days, reservation.accommodation_days, reservation.checkout)
+                values = (reservation.customer_id, reservation.room_id, reservation.accommodation_days, reservation.cost, reservation.checkout)
                 cursor.execute(sql, values)
                 self.connection.commit()
         except mysql.connector.Error as e:

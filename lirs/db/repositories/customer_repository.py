@@ -25,8 +25,7 @@ class CustomerRepository:
             print(f"New customer: {customer.first_name} {customer.last_name} successfully inserted")
         except mysql.connector.Error as e:
             print(f"Error to insert the customer: {e}")
-        finally:
-            cursor.close()
+
 
     def get_customers(self) -> list[Customer]:
         try:
@@ -37,8 +36,7 @@ class CustomerRepository:
                 return records
         except mysql.connector.Error as e:
             print(f"Error to get the customers: {e}")
-        finally:
-            cursor.close()
+
 
     def get_customer_by_email(self, email: str) -> Customer:
         try:
@@ -53,23 +51,22 @@ class CustomerRepository:
                     return None
         except mysql.connector.Error as e:
             print(f"Error to get the customer: {e}")
-        finally:
-            cursor.close()
 
-    def get_customer_by_id(self, id:int)-> Customer:
+
+    def get_customer_by_id(self, id: int) -> Customer:
         try:
-            sql = "SELECT * FROM inn_customer where id = %s"
+            sql = "SELECT * FROM inn_customer WHERE id = %s"
             with self.connection.cursor() as cursor:
-                cursor.execute(sql, id)
-            record = cursor.fetchone()
+                cursor.execute(sql, (id,))
+                record = cursor.fetchone()  # Leia o próximo registro
+
             if record:
                 return Customer(id=record[0], first_name=record[1], last_name=record[2], email=record[3], phone_number=record[4])
             else:
                 return None
         except mysql.connector.Error as e:
             print(f"Error to get the customer: {e}")
-        finally:
-            cursor.close()
+
 
     def update_customer(self, id: int, customer: Customer):
         try:
@@ -94,5 +91,3 @@ class CustomerRepository:
             print("Customer successfully deleted!")
         except mysql.connector.Error as e:
             print(f"Error to delete the customer: {e}")
-        finally:
-            cursor.close()

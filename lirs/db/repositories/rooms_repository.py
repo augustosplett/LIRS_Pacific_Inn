@@ -56,6 +56,19 @@ class RoomsRepository:
         finally:
             cursor.close()
 
+    def get_room_by_room_id(self, id: int) -> Room:
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM inn_rooms WHERE id = %s"
+                cursor.execute(sql, (id,))
+                record = cursor.fetchone()
+                return Room(id=record[0], room_type=record[1], room_price=record[2], avaliability=record[3])
+        except mysql.connector.Error as e:
+            print(f"Something went wrong to get the Rooms: {e}")
+        finally:
+            cursor.close()
+
+
     def update_room_availability(self, id: int, available_rooms: int):
         try:
             with self.connection.cursor() as cursor:

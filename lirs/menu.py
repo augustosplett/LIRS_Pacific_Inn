@@ -1,3 +1,6 @@
+from db.repositories.reservation_repository import ReservationRepository
+from db.models.reservation_model import Reservation
+from checkout.checkout import Checkout
 def print_main_menu():
     print("****************** Welcome to the LIRS system ******************\n")
 
@@ -16,20 +19,17 @@ def get_user_desired_option()-> int:
     while(int(user_option) not in range(1, 4)):
         user_option = input("Enter desired option: ")
         if(int(user_option) not in range(1, 4)):
-            print("Please, enter a option beteween 1 and 3")
-    
+            print("-->Please, enter a option beteween 1 and 3<--")
     #return the value option
     return int(user_option)
 
-def checkout():
-    print("checkout selected")
 
 def checkin():
     print("checkin selected")
 
 def handle_menu_option(option: int):
     if option == 1:
-        checkout()
+        Checkout().checkout()
     elif option == 2:
         checkin()
     else:

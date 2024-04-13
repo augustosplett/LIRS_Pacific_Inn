@@ -25,7 +25,7 @@ def handle_offline_reservations(filepath: str):
     
     data_array = load_offlineReservations(filepath)
     
-    if data_array.count > 0:
+    if len(data_array) > 0:
         print("------------Loading offline reservations---------")
         for line in data_array:
             print("--------------------------------------------------")
@@ -44,13 +44,14 @@ def handle_offline_reservations(filepath: str):
             #print(my_room)
             #if the room is available, make a reservation
             if my_room.avaliability >= 1:
-                my_reserve = Reservation(my_room.id, my_customer.id, days, (my_room.room_price * days), 0)
+                total_cost = (my_room.room_price * days)
+                my_reserve = Reservation(my_room.id, my_customer.id, days,total_cost, 0)
                 ReservationRepository().create_reservation(my_reserve)
                 new_av_nu = my_room.avaliability - 1
                 RoomsRepository().update_room_availability(my_room.id, new_av_nu)
                 print(f"Reservation successfully Included for {my_customer.first_name} {my_customer.last_name} - {my_room.get_room_type()}")
             else:
-                print(f"***No Room {my_room.room_type} available, impossible to finish reservation for {my_customer.first_name}.")
+                print(f"***No Room {my_room.get_room_type()} available, impossible to finish reservation for {my_customer.first_name}.")
     else:
         print("No online reserves to be proccessed")
 
