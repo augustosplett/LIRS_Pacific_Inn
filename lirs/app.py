@@ -1,7 +1,7 @@
 import os
 from db.db_utils import check_db_exist
 from reservations.reservations import handle_offline_reservations
-from menu import menu
+from menu.menu import Menu
 
 #######################################################
 #Check the DB
@@ -19,5 +19,7 @@ check_db_exist(full_configuration_path)
 full_offline_reservation_path = path + '/lirs/reservations/reservation_file.txt'
 handle_offline_reservations(full_offline_reservation_path)
 
-#call the main menu
-menu()
+#######################################################
+#Calls the system menu
+#######################################################
+Menu().menu()
