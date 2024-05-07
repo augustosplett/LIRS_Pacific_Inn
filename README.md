@@ -6,6 +6,14 @@ Date: 13 april 2024
 
 Objective: Final Project for scripting language course
 
+## About
+
+This application simulates a basic hotel management system.
+
+All the interfaces are into the console. 
+
+It uses mysql and other concepts from the scripting language classes. 
+
 ## How to run
 
 ### Installing on a virtual environment (recommended)
